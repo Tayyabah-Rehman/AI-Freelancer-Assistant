@@ -1,9 +1,9 @@
 # Environment / secrets
 .env
 
-# Database
-instance/*.db
-instance/*.sqlite3
+
+# Database / runtime-generated (auto-created by app.py on first run)
+instance/
 
 # Python
 __pycache__/
