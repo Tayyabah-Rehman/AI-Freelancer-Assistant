@@ -4,6 +4,8 @@ An AI-powered web application that automates the administrative and writing work
 
 Built with Flask and the Groq AI API (Llama 3.3 70B), with a deliberate architectural choice: **anything involving money is calculated deterministically, not by AI.** Pricing and invoicing never depend on an external API being reachable — AI is only used for the writing-heavy parts, where it genuinely saves time.
 
+![How AI Freelancer Assistant works - flowchart](./flowchart.png)
+
 ---
 
 ## Table of Contents
@@ -198,7 +200,11 @@ Full route-by-route documentation, including the Groq API request shape used for
 
 ## Screenshots
 
-See the [`screenshots/`](./screenshots) folder for real captures of the running application: dashboard, all 7 generators, pricing breakdown, invoice PDF, unified history, profile, and settings.
+![Dashboard](./screenshots/04_dashboard.png)
+
+The dashboard: live stats (proposals, cover letters, active clients, invoices, AI credits), quick actions into every generator, and a recent activity feed.
+
+See the [`screenshots/`](./screenshots) folder for the rest — all 7 generators, the pricing breakdown, invoice PDF, unified history, profile, and settings.
 
 ## Author
 
