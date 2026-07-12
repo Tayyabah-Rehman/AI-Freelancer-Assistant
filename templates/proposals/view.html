@@ -1,0 +1,57 @@
+{% extends "app_base.html" %}
+{% block title %}{{ proposal.project_title }} - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "proposals" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ proposal.project_title }}</h1>
+  <div class="user-chip">For {{ proposal.client_name }}</div>
+</div>
+
+<div class="widget-card" style="margin-bottom:20px;">
+  <div style="display:flex; gap:24px; flex-wrap:wrap; font-size:0.85rem; color:var(--text-muted);">
+    <div><strong style="color:var(--text-light);">Budget:</strong> {{ proposal.budget or 'Not specified' }}</div>
+    <div><strong style="color:var(--text-light);">Timeline:</strong> {{ proposal.timeline or 'Not specified' }}</div>
+    <div><strong style="color:var(--text-light);">Tone:</strong> {{ proposal.tone|capitalize }}</div>
+    <div><strong style="color:var(--text-light);">Skills:</strong> {{ proposal.skills }}</div>
+  </div>
+</div>
+
+<form method="POST" action="{{ url_for('proposals.save_content', proposal_id=proposal.id) }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <textarea name="generated_content" id="generated_content" class="form-control" rows="16" style="font-family:inherit; line-height:1.6;">{{ proposal.generated_content }}</textarea>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+    <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
+    <button type="button" class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" onclick="copyContent()">Copy</button>
+    <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('proposals.download_pdf', proposal_id=proposal.id) }}">Download PDF</a>
+    <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('proposals.edit_proposal', proposal_id=proposal.id) }}">Edit Details</a>
+  </div>
+</form>
+
+<form method="POST" action="{{ url_for('proposals.regenerate_proposal', proposal_id=proposal.id) }}" style="display:inline;">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--slate); color:var(--text-light); margin-top:12px;">
+    Regenerate with AI (1 credit)
+  </button>
+</form>
+
+<form method="POST" action="{{ url_for('proposals.delete_proposal', proposal_id=proposal.id) }}" style="display:inline;"
+      onsubmit="return confirm('Delete this proposal permanently?');">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--danger); color:#fff; margin-top:12px;">
+    Delete Proposal
+  </button>
+</form>
+
+<p style="margin-top:20px;"><a href="{{ url_for('proposals.list_proposals') }}">&larr; Back to all proposals</a></p>
+
+<script>
+function copyContent() {
+  const text = document.getElementById('generated_content').value;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Proposal copied to clipboard.');
+  });
+}
+</script>
+{% endblock %}

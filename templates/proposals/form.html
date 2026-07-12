@@ -1,0 +1,40 @@
+{% extends "app_base.html" %}
+{% from "_form_macros.html" import field %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'New' }} Proposal - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "proposals" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ 'Edit Proposal Details' if mode == 'edit' else 'New Proposal' }}</h1>
+</div>
+
+<div class="widget-card" style="max-width:640px;">
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    {{ field(form.client_name) }}
+    {{ field(form.project_title) }}
+    {{ field(form.project_description) }}
+    {{ field(form.skills) }}
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.budget) }}</div>
+      <div style="flex:1;">{{ field(form.timeline) }}</div>
+    </div>
+
+    {{ field(form.tone) }}
+
+    {{ form.submit(class="btn btn-primary", value=("Save Changes" if mode == "edit" else "Generate Proposal")) }}
+  </form>
+</div>
+
+{% if mode == "edit" %}
+  <p style="margin-top:14px;">
+    <a href="{{ url_for('proposals.view_proposal', proposal_id=proposal.id) }}">&larr; Back to proposal</a>
+  </p>
+{% else %}
+  <p style="margin-top:14px; color:var(--text-muted); font-size:0.85rem;">
+    This uses 1 AI credit. You currently have {{ current_user.ai_credits }} left.
+  </p>
+{% endif %}
+{% endblock %}

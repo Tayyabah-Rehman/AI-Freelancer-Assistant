@@ -1,0 +1,31 @@
+{% extends "app_base.html" %}
+{% block title %}Smart Pricing - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "pricing" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Smart Pricing Calculator</h1>
+  <a class="btn btn-primary" style="width:auto;" href="{{ url_for('pricing.new_pricing') }}">+ New Calculation</a>
+</div>
+
+<div class="activity-list">
+  {% if entries %}
+    {% for e in entries %}
+      <div class="activity-item">
+        <div>
+          <span class="tag">{{ e.complexity|capitalize }}</span>
+          <a href="{{ url_for('pricing.view_pricing', entry_id=e.id) }}">
+            <strong>${{ '%.2f'|format(e.suggested_price) }}</strong>
+          </a>
+          &nbsp;&middot;&nbsp;{{ e.estimated_hours }} hrs @ ${{ e.hourly_rate }}/hr
+        </div>
+        <div>{{ e.created_at.strftime('%b %d, %Y') }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      No pricing calculations yet. Click "+ New Calculation" to try one.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

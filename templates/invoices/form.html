@@ -1,0 +1,42 @@
+{% extends "app_base.html" %}
+{% from "_form_macros.html" import field %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'New' }} Invoice - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "invoices" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ 'Edit Invoice' if mode == 'edit' else 'New Invoice' }}</h1>
+</div>
+
+<div class="widget-card" style="max-width:640px;">
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.client_name) }}</div>
+      <div style="flex:1;">{{ field(form.client_email) }}</div>
+    </div>
+
+    {{ field(form.project_details) }}
+    {{ field(form.services) }}
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.amount) }}</div>
+      <div style="flex:1;">{{ field(form.tax_percent) }}</div>
+      <div style="flex:1;">{{ field(form.due_date) }}</div>
+    </div>
+
+    {{ form.submit(class="btn btn-primary", value=("Save Changes" if mode == "edit" else "Generate Invoice")) }}
+  </form>
+</div>
+
+{% if mode == "edit" %}
+  <p style="margin-top:14px;">
+    <a href="{{ url_for('invoices.view_invoice', invoice_id=invoice.id) }}">&larr; Back to invoice</a>
+  </p>
+{% else %}
+  <p style="margin-top:14px; color:var(--text-muted); font-size:0.85rem;">
+    Invoices are generated instantly from your inputs and don't use AI credits.
+  </p>
+{% endif %}
+{% endblock %}

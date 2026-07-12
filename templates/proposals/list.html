@@ -1,0 +1,29 @@
+{% extends "app_base.html" %}
+{% block title %}Proposals - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "proposals" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Proposal Generator</h1>
+  <a class="btn btn-primary" style="width:auto;" href="{{ url_for('proposals.new_proposal') }}">+ New Proposal</a>
+</div>
+
+<div class="activity-list">
+  {% if proposals %}
+    {% for p in proposals %}
+      <div class="activity-item">
+        <div>
+          <span class="tag">{{ p.tone|capitalize }}</span>
+          <a href="{{ url_for('proposals.view_proposal', proposal_id=p.id) }}"><strong>{{ p.project_title }}</strong></a>
+          &nbsp;for {{ p.client_name }}
+        </div>
+        <div>{{ p.created_at.strftime('%b %d, %Y') }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      No proposals yet. Click "+ New Proposal" to generate your first one.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

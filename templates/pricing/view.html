@@ -1,0 +1,57 @@
+{% extends "app_base.html" %}
+{% block title %}Pricing Calculation - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "pricing" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>${{ '%.2f'|format(entry.suggested_price) }}</h1>
+  <div class="user-chip">{{ entry.complexity|capitalize }} &middot; {{ entry.urgency|capitalize }}</div>
+</div>
+
+<div class="widgets-grid" style="margin-bottom:10px;">
+  <div class="widget-card">
+    <div class="widget-label">Base (rate &times; hours)</div>
+    <div class="widget-value" style="font-size:1.3rem;">${{ '%.2f'|format(calc.base) }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">After complexity &amp; urgency</div>
+    <div class="widget-value" style="font-size:1.3rem;">${{ '%.2f'|format(calc.adjusted) }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">Tax ({{ entry.tax }}%)</div>
+    <div class="widget-value" style="font-size:1.3rem;">${{ '%.2f'|format(calc.tax_amount) }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">Total Suggested Price</div>
+    <div class="widget-value">${{ '%.2f'|format(calc.total) }}</div>
+  </div>
+</div>
+
+<div class="widget-card" style="margin-bottom:20px; font-size:0.85rem; color:var(--text-muted);">
+  <strong style="color:var(--text-light);">Inputs:</strong>
+  ${{ entry.hourly_rate }}/hr &times; {{ entry.estimated_hours }} hrs,
+  {{ entry.complexity }} complexity, {{ entry.urgency }} urgency,
+  +${{ entry.additional_charges }} additional charges
+</div>
+
+<h2 class="section-title" style="margin-top:0;">Recommended Delivery Time</h2>
+<div class="widget-card" style="margin-bottom:20px;">{{ entry.recommended_delivery_time or "Not generated" }}</div>
+
+<h2 class="section-title">Market Analysis</h2>
+<div class="widget-card" style="margin-bottom:20px; line-height:1.6;">{{ entry.market_analysis or "Not generated" }}</div>
+
+<h2 class="section-title">Service Improvement Tips</h2>
+<div class="widget-card" style="margin-bottom:20px; line-height:1.6; white-space:pre-line;">{{ entry.service_improvement_tips or "Not generated" }}</div>
+
+<div style="display:flex; gap:10px; flex-wrap:wrap;">
+  <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('pricing.edit_pricing', entry_id=entry.id) }}">Edit &amp; Recalculate</a>
+
+  <form method="POST" action="{{ url_for('pricing.delete_pricing', entry_id=entry.id) }}" style="display:inline;"
+        onsubmit="return confirm('Delete this pricing calculation permanently?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="btn" style="width:auto; background:var(--danger); color:#fff;">Delete</button>
+  </form>
+</div>
+
+<p style="margin-top:20px;"><a href="{{ url_for('pricing.list_pricing') }}">&larr; Back to all calculations</a></p>
+{% endblock %}

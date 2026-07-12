@@ -1,0 +1,11 @@
+{% macro field(f) %}
+<div class="form-group">
+  {{ f.label }}
+  {% if f.type == 'TextAreaField' %}
+    {{ f(class="form-control", rows=5) }}
+  {% else %}
+    {{ f(class="form-control") }}
+  {% endif %}
+  {% for error in f.errors %}<div class="errors">{{ error }}</div>{% endfor %}
+</div>
+{% endmacro %}

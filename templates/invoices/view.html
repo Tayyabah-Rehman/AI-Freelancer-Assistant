@@ -1,0 +1,47 @@
+{% extends "app_base.html" %}
+{% block title %}{{ invoice.invoice_number }} - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "invoices" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ invoice.invoice_number }}</h1>
+  <div class="user-chip">Bill To: {{ invoice.client_name }}</div>
+</div>
+
+<div class="widget-card" style="margin-bottom:20px; font-size:0.85rem; color:var(--text-muted);">
+  <div><strong style="color:var(--text-light);">Project:</strong> {{ invoice.project_details }}</div>
+  <div style="margin-top:6px;"><strong style="color:var(--text-light);">Services:</strong> {{ invoice.services }}</div>
+  {% if invoice.client_email %}
+    <div style="margin-top:6px;"><strong style="color:var(--text-light);">Client Email:</strong> {{ invoice.client_email }}</div>
+  {% endif %}
+  <div style="margin-top:6px;"><strong style="color:var(--text-light);">Due Date:</strong> {{ invoice.due_date.strftime('%B %d, %Y') if invoice.due_date else 'N/A' }}</div>
+</div>
+
+<div class="widgets-grid" style="margin-bottom:20px;">
+  <div class="widget-card">
+    <div class="widget-label">Subtotal</div>
+    <div class="widget-value" style="font-size:1.3rem;">${{ '%.2f'|format(invoice.amount) }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">Tax ({{ invoice.tax|round(1) }}%)</div>
+    <div class="widget-value" style="font-size:1.3rem;">${{ '%.2f'|format(calc.tax_amount) }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">Total Due</div>
+    <div class="widget-value">${{ '%.2f'|format(calc.total) }}</div>
+  </div>
+</div>
+
+<div style="display:flex; gap:10px; flex-wrap:wrap;">
+  <a class="btn btn-primary" style="width:auto;" href="{{ url_for('invoices.download_pdf', invoice_id=invoice.id) }}">Download PDF</a>
+  <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('invoices.edit_invoice', invoice_id=invoice.id) }}">Edit Invoice</a>
+
+  <form method="POST" action="{{ url_for('invoices.delete_invoice', invoice_id=invoice.id) }}" style="display:inline;"
+        onsubmit="return confirm('Delete this invoice permanently?');">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="btn" style="width:auto; background:var(--danger); color:#fff;">Delete</button>
+  </form>
+</div>
+
+<p style="margin-top:20px;"><a href="{{ url_for('invoices.list_invoices') }}">&larr; Back to all invoices</a></p>
+{% endblock %}

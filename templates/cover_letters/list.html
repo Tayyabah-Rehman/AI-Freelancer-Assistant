@@ -1,0 +1,28 @@
+{% extends "app_base.html" %}
+{% block title %}Cover Letters - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "cover_letters" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Cover Letter Generator</h1>
+  <a class="btn btn-primary" style="width:auto;" href="{{ url_for('cover_letters.new_cover_letter') }}">+ New Cover Letter</a>
+</div>
+
+<div class="activity-list">
+  {% if letters %}
+    {% for l in letters %}
+      <div class="activity-item">
+        <div>
+          <a href="{{ url_for('cover_letters.view_cover_letter', letter_id=l.id) }}"><strong>{{ l.job_title }}</strong></a>
+          &nbsp;at {{ l.company_name }}
+        </div>
+        <div>{{ l.created_at.strftime('%b %d, %Y') }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      No cover letters yet. Click "+ New Cover Letter" to generate your first one.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

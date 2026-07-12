@@ -1,0 +1,23 @@
+# Environment / secrets
+.env
+
+# Database
+instance/*.db
+instance/*.sqlite3
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+env/
+*.egg-info/
+
+# Uploaded user content (avatars) - keep the folder, ignore contents
+static/uploads/avatars/*
+!static/uploads/avatars/.gitkeep
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

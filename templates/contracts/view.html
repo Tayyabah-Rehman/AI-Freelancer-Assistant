@@ -1,0 +1,61 @@
+{% extends "app_base.html" %}
+{% block title %}Contract - {{ contract.client_name }} - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "contracts" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Contract: {{ contract.client_name }}</h1>
+  <div class="user-chip">{{ contract.timeline }}</div>
+</div>
+
+<div class="widget-card" style="margin-bottom:20px;">
+  <div style="display:flex; gap:24px; flex-wrap:wrap; font-size:0.85rem; color:var(--text-muted);">
+    <div><strong style="color:var(--text-light);">Freelancer:</strong> {{ contract.freelancer_name }}</div>
+    <div><strong style="color:var(--text-light);">Client:</strong> {{ contract.client_name }}</div>
+  </div>
+  <div style="margin-top:8px; font-size:0.85rem; color:var(--text-muted);">
+    <strong style="color:var(--text-light);">Scope:</strong> {{ contract.project_scope }}
+  </div>
+  <div style="margin-top:8px; font-size:0.85rem; color:var(--text-muted);">
+    <strong style="color:var(--text-light);">Payment Terms:</strong> {{ contract.payment_terms }}
+  </div>
+</div>
+
+<form method="POST" action="{{ url_for('contracts.save_content', contract_id=contract.id) }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <textarea name="generated_content" id="generated_content" class="form-control" rows="18" style="font-family:inherit; line-height:1.6;">{{ contract.generated_content }}</textarea>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+    <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
+    <button type="button" class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" onclick="copyContent()">Copy</button>
+    <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('contracts.download_pdf', contract_id=contract.id) }}">Download PDF</a>
+    <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('contracts.edit_contract', contract_id=contract.id) }}">Edit Details</a>
+  </div>
+</form>
+
+<form method="POST" action="{{ url_for('contracts.regenerate_contract', contract_id=contract.id) }}" style="display:inline;">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--slate); color:var(--text-light); margin-top:12px;">
+    Regenerate with AI (1 credit)
+  </button>
+</form>
+
+<form method="POST" action="{{ url_for('contracts.delete_contract', contract_id=contract.id) }}" style="display:inline;"
+      onsubmit="return confirm('Delete this contract permanently?');">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--danger); color:#fff; margin-top:12px;">
+    Delete
+  </button>
+</form>
+
+<p style="margin-top:20px;"><a href="{{ url_for('contracts.list_contracts') }}">&larr; Back to all contracts</a></p>
+
+<script>
+function copyContent() {
+  const text = document.getElementById('generated_content').value;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Contract copied to clipboard.');
+  });
+}
+</script>
+{% endblock %}

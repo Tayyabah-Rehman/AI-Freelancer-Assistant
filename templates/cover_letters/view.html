@@ -1,0 +1,57 @@
+{% extends "app_base.html" %}
+{% block title %}{{ letter.job_title }} - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "cover_letters" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ letter.job_title }}</h1>
+  <div class="user-chip">At {{ letter.company_name }}</div>
+</div>
+
+<div class="widget-card" style="margin-bottom:20px;">
+  <div style="display:flex; gap:24px; flex-wrap:wrap; font-size:0.85rem; color:var(--text-muted);">
+    <div><strong style="color:var(--text-light);">Skills:</strong> {{ letter.skills }}</div>
+    {% if letter.portfolio_url %}
+      <div><strong style="color:var(--text-light);">Portfolio:</strong> <a href="{{ letter.portfolio_url }}" target="_blank">{{ letter.portfolio_url }}</a></div>
+    {% endif %}
+  </div>
+</div>
+
+<form method="POST" action="{{ url_for('cover_letters.save_content', letter_id=letter.id) }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <textarea name="generated_content" id="generated_content" class="form-control" rows="16" style="font-family:inherit; line-height:1.6;">{{ letter.generated_content }}</textarea>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+    <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
+    <button type="button" class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" onclick="copyContent()">Copy</button>
+    <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('cover_letters.download_pdf', letter_id=letter.id) }}">Download PDF</a>
+    <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('cover_letters.edit_cover_letter', letter_id=letter.id) }}">Edit Details</a>
+  </div>
+</form>
+
+<form method="POST" action="{{ url_for('cover_letters.regenerate_cover_letter', letter_id=letter.id) }}" style="display:inline;">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--slate); color:var(--text-light); margin-top:12px;">
+    Regenerate with AI (1 credit)
+  </button>
+</form>
+
+<form method="POST" action="{{ url_for('cover_letters.delete_cover_letter', letter_id=letter.id) }}" style="display:inline;"
+      onsubmit="return confirm('Delete this cover letter permanently?');">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--danger); color:#fff; margin-top:12px;">
+    Delete Cover Letter
+  </button>
+</form>
+
+<p style="margin-top:20px;"><a href="{{ url_for('cover_letters.list_cover_letters') }}">&larr; Back to all cover letters</a></p>
+
+<script>
+function copyContent() {
+  const text = document.getElementById('generated_content').value;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Cover letter copied to clipboard.');
+  });
+}
+</script>
+{% endblock %}

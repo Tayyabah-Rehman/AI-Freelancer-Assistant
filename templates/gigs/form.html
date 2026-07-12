@@ -1,0 +1,39 @@
+{% extends "app_base.html" %}
+{% from "_form_macros.html" import field %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'New' }} Gig Description - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "gigs" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ 'Edit Gig Details' if mode == 'edit' else 'New Gig Description' }}</h1>
+</div>
+
+<div class="widget-card" style="max-width:640px;">
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    {{ field(form.service_category) }}
+    {{ field(form.skills) }}
+    {{ field(form.experience_level) }}
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.delivery_time) }}</div>
+      <div style="flex:1;">{{ field(form.revisions) }}</div>
+    </div>
+
+    {{ field(form.features) }}
+
+    {{ form.submit(class="btn btn-primary", value=("Save Changes" if mode == "edit" else "Generate Gig Description")) }}
+  </form>
+</div>
+
+{% if mode == "edit" %}
+  <p style="margin-top:14px;">
+    <a href="{{ url_for('gigs.view_gig', gig_id=gig.id) }}">&larr; Back to gig</a>
+  </p>
+{% else %}
+  <p style="margin-top:14px; color:var(--text-muted); font-size:0.85rem;">
+    This uses 1 AI credit. You currently have {{ current_user.ai_credits }} left.
+  </p>
+{% endif %}
+{% endblock %}

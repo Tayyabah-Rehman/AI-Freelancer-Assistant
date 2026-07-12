@@ -1,0 +1,14 @@
+{% extends "app_base.html" %}
+{% block title %}{{ title }} - AI Freelancer Assistant{% endblock %}
+{% set active_nav = slug %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ title }}</h1>
+</div>
+<div class="coming-soon-box">
+  <h2>Coming on Day {{ day }}</h2>
+  <p>This module is scheduled to be built and wired up to the AI on Day {{ day }} of the project plan.</p>
+  <p><a href="{{ url_for('dashboard.index') }}">&larr; Back to Dashboard</a></p>
+</div>
+{% endblock %}

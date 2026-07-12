@@ -1,0 +1,44 @@
+{% extends "app_base.html" %}
+{% block title %}History - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "history" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>History</h1>
+</div>
+
+<div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;">
+  {% for slug, label in filters %}
+    <a href="{{ url_for('history.index', type=slug) }}"
+       style="padding:6px 14px; border-radius:16px; font-size:0.82rem; text-decoration:none;
+              background: {{ 'var(--accent-green)' if active_filter == slug else 'var(--slate)' }};
+              color: {{ '#fff' if active_filter == slug else 'var(--text-muted)' }};">
+      {{ label }}
+    </a>
+  {% endfor %}
+</div>
+
+<div class="activity-list">
+  {% if items %}
+    {% for item in items %}
+      <div class="activity-item">
+        <div>
+          <span class="tag">{{ item.label }}</span>
+          <a href="{{ url_for(item.url_endpoint, **item.url_kwargs) }}">
+            <strong>{{ item.title }}</strong>
+          </a>
+          {% if item.subtitle %}
+            &nbsp;&middot;&nbsp;<span style="color:var(--text-muted);">{{ item.subtitle }}</span>
+          {% endif %}
+        </div>
+        <div>{{ item.time.strftime('%b %d, %Y') }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      Nothing here yet for this filter. Generate a proposal, cover letter, gig description,
+      pricing calculation, client reply, invoice, or contract and it'll show up here.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "app_base.html" %}
+{% from "_form_macros.html" import field %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'New' }} Pricing Calculation - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "pricing" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ 'Edit Pricing Inputs' if mode == 'edit' else 'New Pricing Calculation' }}</h1>
+</div>
+
+<div class="widget-card" style="max-width:640px;">
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.hourly_rate) }}</div>
+      <div style="flex:1;">{{ field(form.estimated_hours) }}</div>
+    </div>
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.complexity) }}</div>
+      <div style="flex:1;">{{ field(form.urgency) }}</div>
+    </div>
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.additional_charges) }}</div>
+      <div style="flex:1;">{{ field(form.tax_percent) }}</div>
+    </div>
+
+    {{ form.submit(class="btn btn-primary", value=("Recalculate & Regenerate Suggestions" if mode == "edit" else "Calculate & Get AI Suggestions")) }}
+  </form>
+</div>
+
+{% if mode == "edit" %}
+  <p style="margin-top:14px;">
+    <a href="{{ url_for('pricing.view_pricing', entry_id=entry.id) }}">&larr; Back to calculation</a>
+  </p>
+{% else %}
+  <p style="margin-top:14px; color:var(--text-muted); font-size:0.85rem;">
+    The price itself is calculated instantly and doesn't use AI credits.
+    Getting the market analysis and tips uses 1 AI credit. You currently have {{ current_user.ai_credits }} left.
+  </p>
+{% endif %}
+{% endblock %}

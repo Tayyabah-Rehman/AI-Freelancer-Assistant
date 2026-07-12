@@ -1,0 +1,39 @@
+{% extends "app_base.html" %}
+{% from "_form_macros.html" import field %}
+{% block title %}Settings - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "settings" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Settings</h1>
+</div>
+
+<div class="widget-card" style="max-width:640px;">
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    {{ field(form.theme) }}
+    {{ field(form.language) }}
+
+    <div class="form-group">
+      {{ form.groq_api_key.label }}
+      {{ form.groq_api_key(class="form-control", placeholder="gsk_... (leave blank to use the app's shared key)") }}
+      <div style="font-size:0.78rem; color:var(--text-muted); margin-top:4px;">
+        If set, this key is used for all your AI generations instead of the app's shared .env key.
+        Get a free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a>.
+      </div>
+      {% for error in form.groq_api_key.errors %}<div class="errors">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="form-group" style="display:flex; align-items:center; gap:8px;">
+      {{ form.email_notifications() }}
+      {{ form.email_notifications.label }}
+    </div>
+    <div style="font-size:0.78rem; color:var(--text-muted); margin-top:-8px; margin-bottom:16px;">
+      Note: email sending isn't wired up yet in this build - this preference is saved for when it is.
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+</div>
+{% endblock %}

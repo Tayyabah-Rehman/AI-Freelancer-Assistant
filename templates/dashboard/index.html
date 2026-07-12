@@ -1,0 +1,58 @@
+{% extends "app_base.html" %}
+{% block title %}Dashboard - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "dashboard" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Welcome back, {{ current_user.name.split(' ')[0] }} 👋</h1>
+  <div class="user-chip">{{ current_user.ai_credits }} AI credits</div>
+</div>
+
+<div class="widgets-grid">
+  <div class="widget-card">
+    <div class="widget-label">Total Proposals</div>
+    <div class="widget-value">{{ stats.proposals }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">Cover Letters Created</div>
+    <div class="widget-value">{{ stats.cover_letters }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">Active Clients</div>
+    <div class="widget-value">{{ stats.active_clients }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">Total Invoices</div>
+    <div class="widget-value">{{ stats.invoices }}</div>
+  </div>
+  <div class="widget-card">
+    <div class="widget-label">AI Credits</div>
+    <div class="widget-value">{{ current_user.ai_credits }}</div>
+  </div>
+</div>
+
+<h2 class="section-title">Quick Actions</h2>
+<div class="quick-actions">
+  <a class="quick-action-btn" href="{{ url_for('proposals.new_proposal') }}">+ New Proposal</a>
+  <a class="quick-action-btn" href="{{ url_for('cover_letters.new_cover_letter') }}">+ New Cover Letter</a>
+  <a class="quick-action-btn" href="{{ url_for('gigs.new_gig') }}">+ New Gig Description</a>
+  <a class="quick-action-btn" href="{{ url_for('pricing.new_pricing') }}">+ New Pricing Calculation</a>
+  <a class="quick-action-btn" href="{{ url_for('invoices.new_invoice') }}">+ New Invoice</a>
+  <a class="quick-action-btn" href="{{ url_for('contracts.new_contract') }}">+ New Contract</a>
+  <a class="quick-action-btn" href="{{ url_for('client_replies.new_reply') }}">+ Reply to Client</a>
+</div>
+
+<h2 class="section-title">Recent Activity</h2>
+<div class="activity-list">
+  {% if activity %}
+    {% for item in activity %}
+      <div class="activity-item">
+        <div><span class="tag">{{ item.type }}</span>{{ item.title }}</div>
+        <div>{{ item.time.strftime('%b %d, %Y') }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">No activity yet. Once you generate a proposal, cover letter, or invoice, it will show up here.</div>
+  {% endif %}
+</div>
+{% endblock %}

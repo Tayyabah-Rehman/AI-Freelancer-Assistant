@@ -1,0 +1,30 @@
+{% extends "app_base.html" %}
+{% block title %}Client Replies - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "client_replies" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Client Reply Generator</h1>
+  <a class="btn btn-primary" style="width:auto;" href="{{ url_for('client_replies.new_reply') }}">+ New Reply</a>
+</div>
+
+<div class="activity-list">
+  {% if replies %}
+    {% for r in replies %}
+      <div class="activity-item">
+        <div>
+          <span class="tag">{{ r.tone|capitalize }}</span>
+          <a href="{{ url_for('client_replies.view_reply', reply_id=r.id) }}">
+            {{ r.client_message[:70] }}{{ '...' if r.client_message|length > 70 else '' }}
+          </a>
+        </div>
+        <div>{{ r.created_at.strftime('%b %d, %Y') }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty-state">
+      No replies yet. Click "+ New Reply" to draft your first client response.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

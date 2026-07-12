@@ -1,0 +1,31 @@
+{% extends "app_base.html" %}
+{% from "_form_macros.html" import field %}
+{% block title %}{{ 'Edit' if mode == 'edit' else 'New' }} Client Reply - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "client_replies" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>{{ 'Edit Message Details' if mode == 'edit' else 'New Client Reply' }}</h1>
+</div>
+
+<div class="widget-card" style="max-width:640px;">
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    {{ field(form.client_message) }}
+    {{ field(form.tone) }}
+
+    {{ form.submit(class="btn btn-primary", value=("Save Changes" if mode == "edit" else "Generate Reply")) }}
+  </form>
+</div>
+
+{% if mode == "edit" %}
+  <p style="margin-top:14px;">
+    <a href="{{ url_for('client_replies.view_reply', reply_id=reply.id) }}">&larr; Back to reply</a>
+  </p>
+{% else %}
+  <p style="margin-top:14px; color:var(--text-muted); font-size:0.85rem;">
+    This uses 1 AI credit. You currently have {{ current_user.ai_credits }} left.
+  </p>
+{% endif %}
+{% endblock %}

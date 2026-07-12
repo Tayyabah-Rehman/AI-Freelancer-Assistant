@@ -1,0 +1,52 @@
+{% extends "app_base.html" %}
+{% block title %}Client Reply - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "client_replies" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Client Reply</h1>
+  <div class="user-chip">{{ reply.tone|capitalize }} tone</div>
+</div>
+
+<div class="widget-card" style="margin-bottom:20px;">
+  <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:6px;">Client's message:</div>
+  <div style="font-style:italic; color:var(--text-light);">{{ reply.client_message }}</div>
+</div>
+
+<form method="POST" action="{{ url_for('client_replies.save_content', reply_id=reply.id) }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <textarea name="generated_reply" id="generated_reply" class="form-control" rows="8" style="font-family:inherit; line-height:1.6;">{{ reply.generated_reply }}</textarea>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;">
+    <button type="submit" class="btn btn-primary" style="width:auto;">Save Changes</button>
+    <button type="button" class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" onclick="copyContent()">Copy</button>
+    <a class="btn" style="width:auto; background:var(--slate); color:var(--text-light);" href="{{ url_for('client_replies.edit_reply', reply_id=reply.id) }}">Edit Message</a>
+  </div>
+</form>
+
+<form method="POST" action="{{ url_for('client_replies.regenerate_reply', reply_id=reply.id) }}" style="display:inline;">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--slate); color:var(--text-light); margin-top:12px;">
+    Regenerate with AI (1 credit)
+  </button>
+</form>
+
+<form method="POST" action="{{ url_for('client_replies.delete_reply', reply_id=reply.id) }}" style="display:inline;"
+      onsubmit="return confirm('Delete this reply permanently?');">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn" style="width:auto; background:var(--danger); color:#fff; margin-top:12px;">
+    Delete
+  </button>
+</form>
+
+<p style="margin-top:20px;"><a href="{{ url_for('client_replies.list_replies') }}">&larr; Back to all replies</a></p>
+
+<script>
+function copyContent() {
+  const text = document.getElementById('generated_reply').value;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('Reply copied to clipboard.');
+  });
+}
+</script>
+{% endblock %}

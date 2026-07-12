@@ -1,0 +1,329 @@
+:root {
+  --charcoal: #1c2321;
+  --slate: #2a3330;
+  --slate-light: #3a4642;
+  --accent-green: #3f7a5e;
+  --accent-green-light: #4f9973;
+  --text-light: #e8ece9;
+  --text-muted: #a3aca7;
+  --border-color: #414d48;
+  --danger: #b5504a;
+  --warning: #c99a3a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #141816;
+  color: var(--text-light);
+  font-family: "Segoe UI", Roboto, -apple-system, sans-serif;
+  margin: 0;
+}
+
+a {
+  color: var(--accent-green-light);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-green);
+}
+
+/* ---------- Auth pages ---------- */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top left, var(--slate), var(--charcoal));
+  padding: 20px;
+}
+
+.auth-card {
+  background: var(--charcoal);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.auth-card h2 {
+  margin-top: 0;
+  color: var(--text-light);
+}
+
+.auth-card .subtitle {
+  color: var(--text-muted);
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--slate);
+  color: var(--text-light);
+  font-size: 0.95rem;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent-green-light);
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--accent-green);
+  color: #fff;
+  width: 100%;
+}
+.btn-primary:hover {
+  background: var(--accent-green-light);
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.errors {
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* ---------- Flash messages ---------- */
+.flash-container {
+  max-width: 500px;
+  margin: 0 auto 20px auto;
+}
+
+.flash {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+}
+.flash-success { background: rgba(63, 122, 94, 0.2); border-color: var(--accent-green); }
+.flash-danger  { background: rgba(181, 80, 74, 0.2); border-color: var(--danger); }
+.flash-warning { background: rgba(201, 154, 58, 0.2); border-color: var(--warning); }
+.flash-info    { background: rgba(163, 172, 167, 0.15); border-color: var(--text-muted); }
+
+/* ---------- App shell (dashboard) ---------- */
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background: var(--charcoal);
+  border-right: 1px solid var(--border-color);
+  padding: 25px 18px;
+  flex-shrink: 0;
+}
+
+.sidebar .brand {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 30px;
+  display: block;
+}
+.sidebar .brand span {
+  color: var(--accent-green-light);
+}
+
+.sidebar nav a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background: var(--slate);
+  color: var(--text-light);
+}
+
+.sidebar .nav-section-title {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  margin: 20px 0 8px 12px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px 40px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.topbar h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.user-chip {
+  background: var(--slate);
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.widgets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.widget-card {
+  background: var(--charcoal);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.widget-card .widget-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.widget-card .widget-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent-green-light);
+}
+
+.section-title {
+  font-size: 1.05rem;
+  margin: 30px 0 14px 0;
+  color: var(--text-light);
+}
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.quick-action-btn {
+  background: var(--slate);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.quick-action-btn:hover {
+  background: var(--slate-light);
+  color: var(--accent-green-light);
+}
+
+.activity-list {
+  background: var(--charcoal);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.activity-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+}
+.activity-item:last-child {
+  border-bottom: none;
+}
+
+.activity-item .tag {
+  background: var(--slate);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  color: var(--accent-green-light);
+  margin-right: 10px;
+}
+
+.empty-state {
+  padding: 30px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.coming-soon-box {
+  background: var(--charcoal);
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  padding: 50px 30px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.coming-soon-box h2 {
+  color: var(--text-light);
+  margin-bottom: 10px;
+}
+
+/* ---------- Light theme override (Day 5 Settings > Theme) ---------- */
+body.theme-light {
+  --charcoal: #ffffff;
+  --slate: #f1f3f2;
+  --slate-light: #e4e8e6;
+  --accent-green: #2f6f4f;
+  --accent-green-light: #3f8a63;
+  --text-light: #1c2321;
+  --text-muted: #5a655f;
+  --border-color: #d7ddda;
+  --danger: #b5504a;
+  --warning: #b8842a;
+}
+body.theme-light {
+  background-color: #f7f9f8;
+}

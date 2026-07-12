@@ -1,0 +1,52 @@
+{% extends "app_base.html" %}
+{% from "_form_macros.html" import field %}
+{% block title %}Profile - AI Freelancer Assistant{% endblock %}
+{% set active_nav = "profile" %}
+
+{% block app_content %}
+<div class="topbar">
+  <h1>Your Profile</h1>
+</div>
+
+<div class="widget-card" style="max-width:640px;">
+  <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px;">
+    {% if profile.avatar_path %}
+      <img src="{{ url_for('static', filename=profile.avatar_path) }}" alt="Avatar"
+           style="width:64px; height:64px; border-radius:50%; object-fit:cover; border:2px solid var(--border-color);">
+    {% else %}
+      <div style="width:64px; height:64px; border-radius:50%; background:var(--slate); display:flex; align-items:center; justify-content:center; font-size:1.4rem; color:var(--accent-green-light);">
+        {{ current_user.name[0]|upper }}
+      </div>
+    {% endif %}
+    <div>
+      <div style="font-weight:600;">{{ current_user.name }}</div>
+      <div style="font-size:0.85rem; color:var(--text-muted);">{{ current_user.email }}</div>
+    </div>
+  </div>
+
+  <form method="POST" enctype="multipart/form-data" novalidate>
+    {{ form.hidden_tag() }}
+
+    {{ field(form.name) }}
+    {{ field(form.bio) }}
+    {{ field(form.skills) }}
+    {{ field(form.portfolio_url) }}
+
+    <div style="display:flex; gap:16px;">
+      <div style="flex:1;">{{ field(form.phone) }}</div>
+      <div style="flex:1;">{{ field(form.location) }}</div>
+      <div style="flex:1;">{{ field(form.hourly_rate) }}</div>
+    </div>
+
+    <div class="form-group">
+      {{ form.avatar.label }}
+      {{ form.avatar(class="form-control") }}
+      {% for error in form.avatar.errors %}<div class="errors">{{ error }}</div>{% endfor %}
+    </div>
+
+    {{ form.submit(class="btn btn-primary") }}
+  </form>
+</div>
+
+<p style="margin-top:16px;"><a href="{{ url_for('user_profile.change_password') }}">Change Password &rarr;</a></p>
+{% endblock %}

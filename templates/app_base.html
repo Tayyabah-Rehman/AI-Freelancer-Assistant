@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <a href="{{ url_for('dashboard.index') }}" class="brand">AI<span>Freelancer</span></a>
+
+    <nav>
+      <a href="{{ url_for('dashboard.index') }}" class="{{ 'active' if active_nav == 'dashboard' else '' }}">Dashboard</a>
+      <a href="{{ url_for('history.index') }}" class="{{ 'active' if active_nav == 'history' else '' }}">History</a>
+
+      <div class="nav-section-title">AI Tools</div>
+      <a href="{{ url_for('proposals.list_proposals') }}" class="{{ 'active' if active_nav == 'proposals' else '' }}">Proposal Generator</a>
+      <a href="{{ url_for('cover_letters.list_cover_letters') }}" class="{{ 'active' if active_nav == 'cover_letters' else '' }}">Cover Letter Generator</a>
+      <a href="{{ url_for('gigs.list_gigs') }}" class="{{ 'active' if active_nav == 'gigs' else '' }}">Gig Descriptions</a>
+      <a href="{{ url_for('pricing.list_pricing') }}" class="{{ 'active' if active_nav == 'pricing' else '' }}">Smart Pricing</a>
+      <a href="{{ url_for('client_replies.list_replies') }}" class="{{ 'active' if active_nav == 'client_replies' else '' }}">Client Replies</a>
+
+      <div class="nav-section-title">Documents</div>
+      <a href="{{ url_for('invoices.list_invoices') }}" class="{{ 'active' if active_nav == 'invoices' else '' }}">Invoices</a>
+      <a href="{{ url_for('contracts.list_contracts') }}" class="{{ 'active' if active_nav == 'contracts' else '' }}">Contracts</a>
+
+      <div class="nav-section-title">Account</div>
+      <a href="{{ url_for('user_profile.edit_profile') }}" class="{{ 'active' if active_nav == 'profile' else '' }}">Profile</a>
+      <a href="{{ url_for('settings.edit_settings') }}" class="{{ 'active' if active_nav == 'settings' else '' }}">Settings</a>
+      <a href="{{ url_for('auth.logout') }}">Log Out</a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    {% block app_content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}
