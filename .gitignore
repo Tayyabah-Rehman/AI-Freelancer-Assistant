@@ -1,7 +1,6 @@
 # Environment / secrets
 .env
 
-
 # Database / runtime-generated (auto-created by app.py on first run)
 instance/
 

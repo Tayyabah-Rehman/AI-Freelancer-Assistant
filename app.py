@@ -9,7 +9,10 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from config import Config
 from extensions import db, login_manager, csrf, limiter
 
-
+# In app.py
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module="flask_limiter")
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="requests")
 def create_app(config_class=Config):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config_class)
