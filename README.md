@@ -4,7 +4,7 @@ An AI-powered web application that automates the administrative and writing work
 
 Built with Flask and the Groq AI API (Llama 3.3 70B), with a deliberate architectural choice: **anything involving money is calculated deterministically, not by AI.** Pricing and invoicing never depend on an external API being reachable — AI is only used for the writing-heavy parts, where it genuinely saves time.
 
-![How AI Freelancer Assistant works - flowchart](https://raw.githubusercontent.com/Tayyabah-Rehman/AI-Freelancer-Assistant/main/screenshots/ai_freelancer_assistant_flowchart.png)
+![Dashboard](./screenshots/04_dashboard.png)
 
 ---
 
@@ -176,6 +176,7 @@ Each feature folder follows the same pattern: `forms.py` (WTForms), `routes.py` 
 - **Proxy-aware** (`ProxyFix`) for correct behavior behind Render/Railway/nginx
 - **File upload validation**: type and size restrictions on avatar uploads
 - **User enumeration protection**: password reset gives the same response whether or not an email is registered
+- **Prompt injection defenses** on every AI-generation route: system prompts include an instruction-hierarchy notice, user-submitted text is wrapped in explicit delimiters so the model can distinguish data from instructions, and common injection phrasing is detected and logged for monitoring
 - Environment-driven debug mode — Flask's debugger is automatically disabled in production
 
 Known, intentional gaps (flagged rather than hidden): no email verification on signup, no 2FA, no Content-Security-Policy header yet (would require refactoring inline styles first).
