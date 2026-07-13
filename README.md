@@ -4,7 +4,7 @@ An AI-powered web application that automates the administrative and writing work
 
 Built with Flask and the Groq AI API (Llama 3.3 70B), with a deliberate architectural choice: **anything involving money is calculated deterministically, not by AI.** Pricing and invoicing never depend on an external API being reachable — AI is only used for the writing-heavy parts, where it genuinely saves time.
 
-![Dashboard](./screenshots/04_dashboard.png)
+![Flowchart](./screenshots/ai_freelancer_assistant_flowchart.png)
 
 ---
 
