@@ -4,7 +4,6 @@ An AI-powered web application that automates the administrative and writing work
 
 Built with Flask and the Groq AI API (Llama 3.3 70B), with a deliberate architectural choice: **anything involving money is calculated deterministically, not by AI.** Pricing and invoicing never depend on an external API being reachable — AI is only used for the writing-heavy parts, where it genuinely saves time.
 
-![Flowchart](./screenshots/ai_freelancer_assistant_flowchart.png)
 
 ---
 
@@ -95,6 +94,8 @@ SQLite database              ReportLab PDF export
 ```
 
 Each feature module (Proposals, Cover Letters, Gig Descriptions, Pricing, Client Replies, Invoices, Contracts) is its own Flask blueprint with its own routes, forms, and templates, sharing the same AI service, PDF service, and database layer.
+
+![Flowchart](./screenshots/ai_freelancer_assistant_flowchart.png)
 
 ## Getting Started
 
